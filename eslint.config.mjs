@@ -1,0 +1,55 @@
+import js from "@eslint/js";
+import prettier from "eslint-config-prettier";
+import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
+import globals from "globals";
+import tseslint from "typescript-eslint";
+
+/** Flat ESLint config for DropRevive (TanStack Start on Cloudflare Workers). */
+export default tseslint.config(
+  {
+    ignores: [
+      "dist/**",
+      ".output/**",
+      ".vercel/**",
+      ".nitro/**",
+      "node_modules/**",
+      "src/routeTree.gen.ts",
+    ],
+  },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  {
+    files: ["**/*.{ts,tsx,js,jsx,mjs,cjs}"],
+    languageOptions: {
+      ecmaVersion: 2022,
+      globals: { ...globals.browser, ...globals.node },
+    },
+    plugins: {
+      "react-hooks": reactHooks,
+      "react-refresh": reactRefresh,
+    },
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      // New in react-hooks 7; existing code trips them. Warn for now, fix later.
+      "react-hooks/refs": "warn",
+      "react-hooks/set-state-in-effect": "warn",
+      "react-refresh/only-export-components": [
+        "warn",
+        { allowConstantExport: true },
+      ],
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+      "@typescript-eslint/no-explicit-any": "off",
+    },
+  },
+  {
+    // TanStack route files export the route object next to their components by design.
+    files: ["src/routes/**/*.{ts,tsx}"],
+    rules: { "react-refresh/only-export-components": "off" },
+  },
+  // Disable rules that conflict with Prettier formatting.
+  prettier,
+);

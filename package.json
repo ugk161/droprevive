@@ -1,0 +1,130 @@
+{
+  "name": "droprevive",
+  "version": "1.2.0",
+  "private": true,
+  "description": "Send text and files between your own devices through your own Google Drive or OneDrive. PWA on Cloudflare Workers.",
+  "license": "MIT",
+  "author": "TopCircle",
+  "homepage": "https://github.com/TopCircle/DropRevive#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TopCircle/DropRevive.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TopCircle/DropRevive/issues"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "overrides": {
+    "nf3": "0.3.17",
+    "undici": "^7.29.1",
+    "sharp": "^0.35.5"
+  },
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "deploy": "npm run build && node scripts/check-profile.mjs public && wrangler deploy",
+    "deploy:production": "DROP_PROFILE=production VITE_GOOGLE_CLIENT_ID=707937606664-s6eipc0mvraf5pio6ukg1v3e61rhgs5a.apps.googleusercontent.com VITE_MS_CLIENT_ID=a367fd71-6087-4269-a942-2abf2694f8a1 npm run build && node scripts/check-profile.mjs production && wrangler deploy",
+    "deploy:staging": "VITE_GOOGLE_CLIENT_ID=707937606664-s6eipc0mvraf5pio6ukg1v3e61rhgs5a.apps.googleusercontent.com VITE_MS_CLIENT_ID=a367fd71-6087-4269-a942-2abf2694f8a1 npm run build && node scripts/deploy-staging.mjs",
+    "deploy:self": "node scripts/deploy-self.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test 'scripts/**/*.test.mjs' && node --experimental-strip-types --test src/lib/allowed-origins.test.ts src/lib/runtime-config.test.ts src/lib/setup-status.test.ts src/lib/drop/client-env.test.ts src/lib/pwa-manifest.test.ts src/lib/links.test.ts src/lib/i18n/rich.test.ts src/lib/drop/oauth.server.test.ts src/lib/drop/drive-session.test.ts src/lib/drop/reconcile.test.ts src/lib/drop/store.test.ts src/lib/drop/store.sync.test.ts src/lib/drop/net-retry.test.ts src/lib/drop/http.test.ts src/components/drop/use-stick-to-bottom.test.ts src/components/drop/back-layer.test.ts src/components/drop/use-long-press.test.ts src/components/drop/overlay-scrollbar-core.test.ts src/lib/drop/multi-select.test.ts src/lib/drop/search-groups.test.ts src/lib/drop/desktop-search.test.ts src/lib/drop/scroll-edges.test.ts src/lib/drop/otp.test.ts src/lib/transfer/*.test.ts server/transfer-room.integration.test.mjs",
+    "release": "node scripts/release.mjs",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/ibm-plex-sans": "^5.3.0",
+    "@hookform/resolvers": "^5.7.0",
+    "@radix-ui/react-accordion": "^1.2.21",
+    "@radix-ui/react-alert-dialog": "^1.1.24",
+    "@radix-ui/react-avatar": "^1.2.7",
+    "@radix-ui/react-checkbox": "^1.3.12",
+    "@radix-ui/react-collapsible": "^1.1.12",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-dropdown-menu": "^2.1.25",
+    "@radix-ui/react-label": "^2.1.16",
+    "@radix-ui/react-popover": "^1.2.0",
+    "@radix-ui/react-progress": "^1.1.17",
+    "@radix-ui/react-radio-group": "^1.4.8",
+    "@radix-ui/react-scroll-area": "^1.3.0",
+    "@radix-ui/react-select": "^2.3.8",
+    "@radix-ui/react-separator": "^1.1.16",
+    "@radix-ui/react-slider": "^1.5.0",
+    "@radix-ui/react-slot": "^1.4.0",
+    "@radix-ui/react-switch": "^1.3.8",
+    "@radix-ui/react-tabs": "^1.1.22",
+    "@radix-ui/react-toggle": "^1.1.19",
+    "@radix-ui/react-toggle-group": "^1.1.20",
+    "@radix-ui/react-tooltip": "^1.3.0",
+    "@tanstack/react-query": "^5.104.1",
+    "@tanstack/react-router": "^1.170.41",
+    "@tanstack/react-start": "^1.168.60",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "date-fns": "^4.0.0",
+    "jsqr": "^1.4.0",
+    "lucide-react": "^1.54.0",
+    "nitro": "3.0.260903-beta",
+    "qrcode": "^1.5.4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-hook-form": "^7.89.0",
+    "react-resizable-panels": "^4.14.3",
+    "recharts": "^2.13.0",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.5.0",
+    "tw-animate-css": "^1.3.4",
+    "vaul": "^1.1.2",
+    "zod": "^4.4.0",
+    "zustand": "^5.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.20.0",
+    "@tailwindcss/vite": "^4.3.0",
+    "@tanstack/router-plugin": "^1.168.0",
+    "@types/node": "^22.20.5",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "eslint": "^9.20.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.6",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "globals": "^17.13.0",
+    "lightningcss": "^1.28.0",
+    "miniflare": "4.20260730.0",
+    "prettier": "^3.4.0",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.71.1",
+    "vite": "^8.3.4",
+    "wrangler": "4.149.0"
+  },
+  "cloudflare": {
+    "bindings": {
+      "GOOGLE_CLIENT_ID": {
+        "description": "可选，部署后再设 / Optional, set it after deploy: Google OAuth 客户端 ID / client ID (`….apps.googleusercontent.com`). 不用 Google 就不填 / Leave empty if you do not use Google. [docs/self-host.md](https://github.com/TopCircle/DropRevive/blob/main/docs/self-host.md#google)"
+      },
+      "GOOGLE_CLIENT_SECRET": {
+        "description": "可选，部署后再设 / Optional, set it after deploy: Google OAuth 客户端密钥 / client secret. 不用 Google 就不填 / Leave empty if you do not use Google. [docs/self-host.md](https://github.com/TopCircle/DropRevive/blob/main/docs/self-host.md#google)"
+      },
+      "MS_CLIENT_ID": {
+        "description": "可选，部署后再设 / Optional, set it after deploy: Azure 应用（客户端）ID / application (client) ID. 不用 OneDrive 就不填 / Leave empty if you do not use OneDrive. [docs/self-host.md](https://github.com/TopCircle/DropRevive/blob/main/docs/self-host.md#onedrive)"
+      },
+      "MS_CLIENT_SECRET": {
+        "description": "可选，部署后再设 / Optional, set it after deploy: Azure 客户端密钥的「值」/ client secret **Value**（最长 24 个月到期 / expires within 24 months）. [docs/self-host.md](https://github.com/TopCircle/DropRevive/blob/main/docs/self-host.md#onedrive)"
+      },
+      "DRIVE_COOKIE_KEY": {
+        "description": "可选，部署后再设，开通网盘时需要 / Optional, needed once you turn on a drive: 随机 32 字节 base64 / random 32-byte base64 key, `openssl rand -base64 32`. [docs/self-host.md](https://github.com/TopCircle/DropRevive/blob/main/docs/self-host.md#cookie-key)"
+      },
+      "ALLOWED_ORIGINS": {
+        "description": "可选 / Optional: 不设就只允许本站自己的地址 / Unset means only this site's own origin. 只有要允许别的地址时才设，逗号分隔 / Set it only to allow other origins, comma-separated. [docs/self-host.md](https://github.com/TopCircle/DropRevive/blob/main/docs/self-host.md#allowed-origins)"
+      }
+    }
+  }
+}
